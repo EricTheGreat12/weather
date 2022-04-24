@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  justify-content: flex-end;
 }
 
 li {
@@ -16,11 +17,55 @@ a:visited {
 html,
 body {
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 body {
+  font-family: sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+}
+
+.card {
+  font-size: 1.25rem;
+  padding: 2rem;
+}
+
+.city {
+  font-size: 3rem;
+}
+
+.bottom {
+  max-width: 500px;
+  margin: 1.5rem 0 0;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.temp {
+  font-size: 5rem;
+  margin: 0 1.5rem 1.5rem 0;
+}
+
+.right {
+  width: 12rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.label {
+  padding-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 500px) {
+  .city {
+    font-size: 2rem;
+  }
 }

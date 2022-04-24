@@ -8,14 +8,30 @@
     <script defer src="main.js"></script>
   </head>
   <body>
-    <header>Wethr</header>
+    <header><input type="text" name="search" id="search" /></header>
     <main>
-      <div class="city"></div>
-      <div class="temp"></div>
-      <div class="feelsLike"></div>
-      <div class="wind"></div>
-      <div class="humidity"></div>
-      <div class="unit" data-value="i"></div>
+      <div class="card">
+        <div class="city">City namelonger, State</div>
+        <div class="conditions">Mostly Cloudy with a chance of long thing</div>
+        <div class="bottom">
+          <div class="temp">20°F</div>
+          <div class="right">
+            <div class="label">
+              Feels like:
+              <div class="feelsLike">169°F</div>
+            </div>
+            <div class="label">
+              Wind:
+              <div class="wind">5 mph</div>
+            </div>
+            <div class="label">
+              Humidity:
+              <div class="humidity">169%</div>
+            </div>
+          </div>
+        </div>
+        <div class="unit" data-value="imperial"></div>
+      </div>
     </main>
     <footer>
       Made by Eric | <a href="https://github.com/EricTheGreat12">GitHub</a>
