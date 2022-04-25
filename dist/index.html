@@ -5,22 +5,27 @@
     <title>Wethr</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="style.css" />
-    <script defer src="main.js"></script>
+    <script src="main.js" defer></script>
   </head>
   <body>
     <main>
-      <input
-        type="text"
-        name="search"
-        id="search"
-        autocomplete="off"
-        placeholder="Enter city"
-      />
+      <form class="searchForm">
+        <input
+          type="text"
+          name="search"
+          id="search"
+          autocomplete="off"
+          placeholder="Enter city"
+        />
+        <button type="submit">
+          <img src="./assests/magnify.svg" alt="Search" />
+        </button>
+      </form>
       <div class="card">
         <div class="city">City namelonger, State</div>
         <div class="conditions">Mostly Cloudy with a chance of long thing</div>
         <div class="bottom">
-          <div class="temp">20°F</div>
+          <div class="temp">420°F</div>
           <div class="right">
             <div class="label">
               Feels like:
@@ -36,7 +41,7 @@
             </div>
           </div>
         </div>
-        <div class="unit" data-value="imperial"></div>
+        <div id="units" data-value="metric"></div>
       </div>
     </main>
     <footer>

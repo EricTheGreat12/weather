@@ -1,13 +1,21 @@
+function help() {
+  console.log('asdf');
+  return true;
+}
+
 async function getWeatherData() {
-  let city = 'new york';
+  let location = document.getElementById('search');
+  let units = document.getElementById('units').dataset.value;
   let key = 'b4aeac035ee123e34ece638cad464229';
-  let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric`;
+  let url = `http://api.openweathermap.org/data/2.5/weather?q=${location.value}&appid=${key}&units=${units}`;
   try {
     let response = await fetch(url, { mode: 'cors' });
     let weatherData = await response.json();
+    console.log(weatherData);
+    location.value = '';
     return weatherData;
   } catch (err) {
-    console.log(err);
+    throw err;
   }
 }
 
@@ -26,4 +34,7 @@ async function test() {
   console.log(data.sys);
 }
 
-test();
+document.querySelector('.searchForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  getWeatherData();
+});
