@@ -169,6 +169,19 @@ input:checked + .slider:before {
   transform: translateX(1.25rem);
 }
 
+#theme {
+  width: 7rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+  font-weight: 900;
+  border: 2px solid var(--contrast-color);
+  padding: 0.25rem;
+  border-radius: 1.5rem;
+  background-color: var(--contrast-color);
+  color: var(--background-color);
+  cursor: pointer;
+}
+
 footer {
   margin-top: auto;
 }

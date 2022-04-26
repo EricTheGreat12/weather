@@ -6,6 +6,7 @@ class Page {
     this.feelsLike = document.querySelector('.feelsLike');
     this.wind = document.querySelector('.wind');
     this.humidity = document.querySelector('.humidity');
+    this.theme = document.getElementById('theme');
   }
 
   //Calls openweathermap api for current weather in search bar location
@@ -46,17 +47,28 @@ class Page {
   default(city) {
     this.getWeatherData(city);
   }
+
+  toggleTheme() {
+    if (theme.textContent == 'Dark Mode') {
+      theme.textContent = 'Light Mode';
+      document.documentElement.style.setProperty(
+        '--background-color',
+        '#121212'
+      );
+      document.documentElement.style.setProperty('--font-color', '#ffffff');
+    } else {
+      theme.textContent = 'Dark Mode';
+      document.documentElement.style.setProperty(
+        '--background-color',
+        '#ffffff'
+      );
+      document.documentElement.style.setProperty('--font-color', '#121212');
+    }
+  }
 }
 
-//celsius to fahrenheit
-function tempToImp(temp) {
-  return temp * 1.8 + 32;
-}
-
-//meters/second to miles/hour
-function speedToImp(speed) {
-  return speed * 2.23694;
-}
+let page = new Page();
+page.default('detroit');
 
 document.querySelector('.searchForm').addEventListener('submit', (e) => {
   e.preventDefault();
@@ -67,5 +79,4 @@ document.getElementById('units').addEventListener('change', () => {
   page.getWeatherData(document.querySelector('.city').textContent);
 });
 
-let page = new Page();
-page.default('detroit');
+document.getElementById('theme').addEventListener('click', page.toggleTheme);
