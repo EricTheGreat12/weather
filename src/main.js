@@ -68,7 +68,7 @@ class Page {
 }
 
 let page = new Page();
-page.default('detroit');
+page.default('noodle');
 
 document.querySelector('.searchForm').addEventListener('submit', (e) => {
   e.preventDefault();
