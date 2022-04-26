@@ -8,19 +8,22 @@
     <script src="main.js" defer></script>
   </head>
   <body>
-    <main>
+    <header>
       <form class="searchForm">
-        <input
-          type="text"
-          name="search"
-          id="search"
-          autocomplete="off"
-          placeholder="Enter city"
-        />
-        <button type="submit">
-          <img src="./assests/magnify.svg" alt="Search" />
-        </button>
+        <div class="searchWrapper">
+          <input
+            type="text"
+            id="search"
+            autocomplete="off"
+            placeholder="Enter city"
+          />
+          <button id="submit" type="submit">
+            <img src="./assests/magnify.svg" alt="Go" />
+          </button>
+        </div>
       </form>
+    </header>
+    <main>
       <div class="card">
         <div class="city"></div>
         <div class="conditions"></div>
@@ -41,7 +44,14 @@
             </div>
           </div>
         </div>
-        <div id="units" data-value="metric"></div>
+        <div class="unitsWrapper">
+          <div class="imperial">°F</div>
+          <label class="switch">
+            <input type="checkbox" id="units" />
+            <span class="slider"></span>
+          </label>
+          <div class="metric">°C</div>
+        </div>
       </div>
     </main>
     <footer>

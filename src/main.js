@@ -1,24 +1,3 @@
-async function getWeatherData(city) {
-  let location = document.getElementById('search');
-  let units = document.getElementById('units').dataset.value;
-  let key = 'b4aeac035ee123e34ece638cad464229';
-  let url = `http://api.openweathermap.org/data/2.5/weather?q=${
-    city ? city : location.value
-  }&appid=${key}&units=${units}`;
-  try {
-    let response = await fetch(url, { mode: 'cors' });
-    let data = await response.json();
-    units === 'metric'
-      ? page.update(data, 'C', 'm/s')
-      : page.update(data, 'F', 'MPH');
-
-    location.value = '';
-    return;
-  } catch (err) {
-    throw err;
-  }
-}
-
 class Page {
   constructor() {
     this.city = document.querySelector('.city');
@@ -29,8 +8,32 @@ class Page {
     this.humidity = document.querySelector('.humidity');
   }
 
+  //Calls openweathermap api for current weather in search bar location
+  //Or uses city name passed in as parameter
+  async getWeatherData(city) {
+    let location = document.getElementById('search');
+    let units = document.getElementById('units');
+    let key = 'b4aeac035ee123e34ece638cad464229';
+    let url = `http://api.openweathermap.org/data/2.5/weather?q=${
+      city ? city : location.value
+    }&appid=${key}&units=${units.checked ? 'metric' : 'imperial'}`;
+    try {
+      let response = await fetch(url, { mode: 'cors' });
+      let data = await response.json();
+      units.checked
+        ? this.update(data, 'C', 'm/s')
+        : this.update(data, 'F', 'MPH');
+      location.value = '';
+      return;
+    } catch (err) {
+      //HANDLE ERRORS
+      throw err;
+    }
+  }
+
+  //updates dom with new weather data
   update(data, tempUnit, speedUnit) {
-    this.city.textContent = data.name;
+    this.city.textContent = `${data.name}, ${data.sys.country}`;
     this.conditions.textContent = data.weather[0].description;
     this.temp.textContent = `${Math.round(data.main.temp)}°${tempUnit}`;
     this.feelsLike.textContent = `${Math.round(
@@ -41,7 +44,7 @@ class Page {
   }
 
   default(city) {
-    getWeatherData(city);
+    this.getWeatherData(city);
   }
 }
 
@@ -57,7 +60,11 @@ function speedToImp(speed) {
 
 document.querySelector('.searchForm').addEventListener('submit', (e) => {
   e.preventDefault();
-  getWeatherData();
+  page.getWeatherData();
+});
+
+document.getElementById('units').addEventListener('change', () => {
+  page.getWeatherData(document.querySelector('.city').textContent);
 });
 
 let page = new Page();
