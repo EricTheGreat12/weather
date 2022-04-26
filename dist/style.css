@@ -1,6 +1,15 @@
+:root {
+  --font-color: #121212;
+  --background-color: #ffffff;
+  --contrast-color: #03dac6;
+}
+
 * {
+  color: var(--font-color);
+  background-color: var(--background-color);
   margin: 0;
   padding: 0;
+  text-align: center;
 }
 
 a,
@@ -38,8 +47,8 @@ body {
 #search {
   padding: 0.25rem 2rem 0.25rem 1rem;
   font-size: 1.25rem;
-  border: 1px solid black;
-  border-radius: 1rem;
+  border: 2px solid var(--contrast-color);
+  border-radius: 1.5rem;
   width: min(15rem, 65vw);
 }
 
@@ -48,13 +57,15 @@ body {
   height: 2rem;
   position: relative;
   left: -2rem;
+  top: 0.15rem;
+  padding-right: 2rem;
   background: none;
   border: none;
   cursor: pointer;
 }
 
 #submit > img {
-  padding: 0.25rem 0;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 #search:focus {
@@ -117,7 +128,7 @@ main {
   height: 1.5rem;
   width: 7rem;
   border-radius: 1rem;
-  border: 1px solid black;
+  border: 2px solid var(--contrast-color);
 }
 
 .switch {
@@ -140,23 +151,22 @@ main {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: black;
+  background-color: var(--contrast-color);
   transition: 0.4s;
 }
 
 .slider:before {
   position: absolute;
   content: '';
-  height: 1.25rem;
-  width: 1.25rem;
-  left: 0.1rem;
-  bottom: 0.1rem;
-  background-color: white;
+  height: 1.5rem;
+  width: 1.5rem;
+  left: 0.15rem;
+  background-color: var(--background-color);
   transition: 0.4s;
 }
 
 input:checked + .slider:before {
-  transform: translateX(1.5rem);
+  transform: translateX(1.25rem);
 }
 
 footer {
