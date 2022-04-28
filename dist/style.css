@@ -32,7 +32,7 @@ body {
 }
 
 .searchForm {
-  margin: 4rem 2rem;
+  margin: 2rem;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
@@ -171,7 +171,7 @@ input:checked + .slider:before {
 
 #theme {
   width: 7rem;
-  margin-top: 1rem;
+  margin-top: 2rem;
   font-size: 1rem;
   font-weight: 900;
   border: 2px solid var(--background-color);
@@ -180,6 +180,14 @@ input:checked + .slider:before {
   background-color: var(--contrast-color);
   color: var(--background-color);
   cursor: pointer;
+}
+
+#theme.light::after {
+  content: 'Dark Mode';
+}
+
+#theme.dark::after {
+  content: 'Light Mode';
 }
 
 footer {

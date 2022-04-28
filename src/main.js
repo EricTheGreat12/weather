@@ -48,26 +48,43 @@ class Page {
     this.getWeatherData(city);
   }
 
-  toggleTheme() {
-    if (theme.textContent == 'Dark Mode') {
-      theme.textContent = 'Light Mode';
-      document.documentElement.style.setProperty(
-        '--background-color',
-        '#121212'
-      );
-      document.documentElement.style.setProperty('--font-color', '#ffffff');
-    } else {
-      theme.textContent = 'Dark Mode';
-      document.documentElement.style.setProperty(
-        '--background-color',
-        '#ffffff'
-      );
-      document.documentElement.style.setProperty('--font-color', '#121212');
+  colorSchemeLight() {
+    theme.classList.remove('dark');
+    theme.classList.add('light');
+    document.documentElement.style.setProperty('--background-color', '#ffffff');
+    document.documentElement.style.setProperty('--font-color', '#121212');
+  }
+
+  colorSchemeDark() {
+    theme.classList.remove('light');
+    theme.classList.add('dark');
+    document.documentElement.style.setProperty('--background-color', '#121212');
+    document.documentElement.style.setProperty('--font-color', '#ffffff');
+  }
+
+  getColorScheme() {
+    if (window.matchMedia) {
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        this.colorSchemeDark();
+      }
+      window
+        .matchMedia('(prefers-color-scheme: dark)')
+        .addEventListener('change', (event) => {
+          event.matches ? this.colorSchemeDark() : this.colorSchemeLight();
+        });
     }
+    this.theme.addEventListener('click', () => {
+      if (this.theme.classList.contains('dark')) {
+        this.colorSchemeLight();
+      } else {
+        this.colorSchemeDark();
+      }
+    });
   }
 }
 
 let page = new Page();
+page.getColorScheme();
 page.default('noodle');
 
 document.querySelector('.searchForm').addEventListener('submit', (e) => {
@@ -79,4 +96,6 @@ document.getElementById('units').addEventListener('change', () => {
   page.getWeatherData(document.querySelector('.city').textContent);
 });
 
-document.getElementById('theme').addEventListener('click', page.toggleTheme);
+document
+  .getElementById('theme')
+  .addEventListener('click', page.toggleColorScheme);
