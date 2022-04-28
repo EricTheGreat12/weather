@@ -21,11 +21,15 @@ class Page {
     try {
       let response = await fetch(url, { mode: 'cors' });
       let data = await response.json();
-      units.checked
-        ? this.update(data, 'C', 'm/s')
-        : this.update(data, 'F', 'MPH');
-      location.value = '';
-      return;
+      if (data.cod == 200) {
+        units.checked
+          ? this.update(data, 'C', 'm/s')
+          : this.update(data, 'F', 'MPH');
+        location.value = '';
+        return;
+      } else {
+        console.log(data.message);
+      }
     } catch (err) {
       //HANDLE ERRORS
       throw err;
@@ -62,6 +66,10 @@ class Page {
     document.documentElement.style.setProperty('--font-color', '#ffffff');
   }
 
+  //gets preferred color scheme and listens for changes to preferred
+  //color scheme
+
+  //toggles color scheme on button click
   getColorScheme() {
     if (window.matchMedia) {
       if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -95,7 +103,3 @@ document.querySelector('.searchForm').addEventListener('submit', (e) => {
 document.getElementById('units').addEventListener('change', () => {
   page.getWeatherData(document.querySelector('.city').textContent);
 });
-
-document
-  .getElementById('theme')
-  .addEventListener('click', page.toggleColorScheme);
