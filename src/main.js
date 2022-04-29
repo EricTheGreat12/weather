@@ -34,6 +34,16 @@ class Page {
     this.search.value = '';
   }
 
+  //maybe add loading content later. maybe not
+  loading() {
+    this.city.textContent = '--';
+    this.conditions.textContent = '--';
+    this.temp.textContent = '--';
+    this.feelsLike.textContent = '--';
+    this.wind.textContent = '--';
+    this.humidity.textContent = '--';
+  }
+
   //updates dom with new weather data
   update(data, tempUnit, speedUnit) {
     this.city.textContent = `${data.name}, ${data.sys.country}`;
@@ -111,6 +121,7 @@ class Page {
 
   //calls methods that run page and calls api for default city
   run() {
+    this.loading();
     this.searchListener();
     this.unitsListener();
     this.getColorScheme();
