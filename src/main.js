@@ -1,5 +1,8 @@
 class Page {
   constructor() {
+    this.key = 'b4aeac035ee123e34ece638cad464229';
+    this.search = document.getElementById('search');
+    this.units = document.getElementById('units');
     this.city = document.querySelector('.city');
     this.conditions = document.querySelector('.conditions');
     this.temp = document.querySelector('.temp');
@@ -9,31 +12,26 @@ class Page {
     this.theme = document.getElementById('theme');
   }
 
-  //Calls openweathermap api for current weather in search bar location
-  //Or uses city name passed in as parameter
+  //Calls openweathermap api
   async getWeatherData(city) {
-    let location = document.getElementById('search');
-    let units = document.getElementById('units');
-    let key = 'b4aeac035ee123e34ece638cad464229';
-    let url = `http://api.openweathermap.org/data/2.5/weather?q=${
-      city ? city : location.value
-    }&appid=${key}&units=${units.checked ? 'metric' : 'imperial'}`;
+    let url = `http://api.openweathermap.org/data/2.5/weather?q=${city.trim()}&appid=${
+      this.key
+    }&units=${this.units.checked ? 'metric' : 'imperial'}`;
+
     try {
       let response = await fetch(url, { mode: 'cors' });
-      let data = await response.json();
-      if (data.cod == 200) {
-        units.checked
+      if (response.status == 200) {
+        let data = await response.json();
+        this.units.checked
           ? this.update(data, 'C', 'm/s')
           : this.update(data, 'F', 'MPH');
-        location.value = '';
-        return;
       } else {
-        console.log(data.message);
+        this.searchError(`Sorry, we couldn't find "${city}"`);
       }
     } catch (err) {
-      //HANDLE ERRORS
-      throw err;
+      this.searchError('Network error');
     }
+    this.search.value = '';
   }
 
   //updates dom with new weather data
@@ -48,10 +46,31 @@ class Page {
     this.humidity.textContent = `${data.main.humidity}%`;
   }
 
-  default(city) {
-    this.getWeatherData(city);
+  //adds event listener for search form submit
+  searchListener() {
+    document.querySelector('.searchForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (this.search.value == '') {
+        this.searchError('Please enter a city name or zip code');
+      } else {
+        this.getWeatherData(this.search.value);
+      }
+    });
   }
 
+  searchError(errorMessage) {
+    this.search.setCustomValidity(errorMessage);
+    this.search.reportValidity();
+    this.search.setCustomValidity('');
+  }
+
+  unitsListener() {
+    this.units.addEventListener('change', () => {
+      this.getWeatherData(this.city.textContent);
+    });
+  }
+
+  //changes to light color scheme
   colorSchemeLight() {
     theme.classList.remove('dark');
     theme.classList.add('light');
@@ -59,6 +78,7 @@ class Page {
     document.documentElement.style.setProperty('--font-color', '#121212');
   }
 
+  //changes to dark color scheme
   colorSchemeDark() {
     theme.classList.remove('light');
     theme.classList.add('dark');
@@ -66,10 +86,9 @@ class Page {
     document.documentElement.style.setProperty('--font-color', '#ffffff');
   }
 
-  //gets preferred color scheme and listens for changes to preferred
-  //color scheme
-
-  //toggles color scheme on button click
+  //get browser's prefered color scheme
+  //listens for changes to browser's color scheme
+  //toggles color scheme based on color scheme button clicks
   getColorScheme() {
     if (window.matchMedia) {
       if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -89,17 +108,15 @@ class Page {
       }
     });
   }
+
+  //calls methods that run page and calls api for default city
+  run() {
+    this.searchListener();
+    this.unitsListener();
+    this.getColorScheme();
+    this.getWeatherData('noodle');
+  }
 }
 
 let page = new Page();
-page.getColorScheme();
-page.default('noodle');
-
-document.querySelector('.searchForm').addEventListener('submit', (e) => {
-  e.preventDefault();
-  page.getWeatherData();
-});
-
-document.getElementById('units').addEventListener('change', () => {
-  page.getWeatherData(document.querySelector('.city').textContent);
-});
+page.run();
